@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+<h1>Register</h1>
+<form action="/user/egister" method="post" id="registerForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <button type="submit">Register</button>
+</form>
+
+<script>
+    document.getElementById('registerForm').onsubmit = function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
+
+        // Tạo đối tượng FormData từ form
+        var formData = new FormData(event.target);
+
+        // Chuyển đổi đối tượng FormData thành đối tượng JSON
+        var jsonData = {};
+        formData.forEach(function(value, key) {
+            jsonData[key] = value;
+        });
+
+        // Gửi yêu cầu POST bằng fetch API
+        fetch('/user/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        })
+            .then(response => response.text())
+            .then(result => {
+                alert(result); // Hiển thị kết quả trả về từ server
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    };
+</script>
+</body>
+</html>

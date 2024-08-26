@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    hllleoooo
+
+<script>
+    // Lấy token từ localStorage
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        // Gửi yêu cầu đến trang /hello với token
+        fetch('/hello', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // Hoặc response.text() nếu server trả về chuỗi
+                } else {
+                    throw new Error('Failed to fetch');
+                }
+            })
+            .then(data => {
+                console.log('Data from /hello:', data);
+                // Xử lý dữ liệu từ server nếu cần
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    } else {
+        console.error('No token found in localStorage');
+    }
+
+</script>
+</body>
+</html>
